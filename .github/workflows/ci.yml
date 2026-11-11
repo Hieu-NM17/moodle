@@ -1,0 +1,39 @@
+name: Moodle CI
+
+on:
+  pull_request:
+    branches:
+      - project-dev
+
+  push:
+    branches:
+      - project-dev
+
+permissions:
+  contents: read
+
+jobs:
+  php-syntax:
+    name: PHP Syntax Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Check PHP syntax
+        shell: bash
+        run: |
+          find . \
+            -type f \
+            -name "*.php" \
+            -not -path "./.git/*" \
+            -not -path "./vendor/*" \
+            -not -path "./node_modules/*" \
+            -print0 |
+          xargs -0 -r -n1 php -l
