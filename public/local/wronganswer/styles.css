@@ -1,0 +1,20 @@
+.local-wronganswer-cta {
+    margin-top: 1.5rem;
+}
+
+.local-wronganswer-page .local-wronganswer-back {
+    margin-bottom: 1rem;
+}
+
+.local-wronganswer-page .local-wronganswer-submit {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.local-wronganswer-page .que {
+    margin-bottom: 1.5rem;
+}
+
+.local-wronganswer-page .local-wronganswer-retry {
+    margin-top: 1.5rem;
+}
