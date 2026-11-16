@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - http://moodle.org/.
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -114,7 +114,6 @@ class provider implements
                         ];
                     }
                 } catch (\Throwable $exception) {
-                    // Keep the session metadata exportable even if an old usage is unavailable.
                     debugging('Could not export a Question Usage for local_wronganswer: ' . $exception->getMessage(),
                             DEBUG_DEVELOPER);
                 }

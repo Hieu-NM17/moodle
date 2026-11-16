@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - http://moodle.org/.
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -72,8 +72,7 @@ function local_wronganswer_question_pluginfile($course, $context, $component,
         send_file_not_found();
     }
 
-    // question_usage_by_activity::check_file_access() expects display options,
-    // unlike mod_quiz\quiz_attempt::check_file_access(), which has a different signature.
+    // question_usage_by_activity::check_file_access() expects display options.
     if ($session->status === 'finished') {
         $displayoptions = clone $reviewoptions;
     } else {

@@ -1,7 +1,7 @@
 <?php
 $string['pluginname'] = 'Wrong-answer practice';
 $string['retakewrong'] = 'Practise incorrect questions';
-$string['practicehint'] = 'You can practise the questions that were incorrect, partially correct, or left unanswered in this attempt.';
+$string['practicehint'] = 'You can practise the automatically gradable questions that were incorrect, partially correct, or left unanswered in this attempt.';
 $string['practicepagetitle'] = 'Practise incorrect questions';
 $string['practicebasedon'] = 'Practice questions taken from quiz attempt {$a}.';
 $string['practiceinstructions'] = 'Answer the questions below, then submit this practice attempt to see your result.';
@@ -13,8 +13,9 @@ $string['retryremaining'] = 'Practise the remaining incorrect questions';
 $string['allcorrect'] = 'Great work! All questions in this practice session are now correct.';
 $string['invalidpracticeurl'] = 'The practice session URL is invalid.';
 $string['invalidpracticeusage'] = 'The practice data is not associated with this quiz.';
+$string['invalidpracticeform'] = 'The practice form is incomplete or out of date. Reload the page and submit your answers again.';
 $string['invalidoriginalattempt'] = 'This feature is available only for your own submitted, non-preview quiz attempt.';
-$string['nowrongquestions'] = 'There are no incorrect questions left to practise.';
+$string['nowrongquestions'] = 'There are no automatically gradable incorrect questions left to practise.';
 $string['emptypracticesession'] = 'This practice session contains no questions.';
 $string['sessionalreadyfinished'] = 'This practice session has already been submitted.';
 $string['reviewnotallowed'] = 'The quiz settings do not allow you to review the attempt and its correctness for this attempt, so incorrect-question practice is unavailable.';

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - http://moodle.org/.
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -102,8 +102,9 @@ if ((int)$usage->get_owning_context()->id !== (int)$context->id ||
 }
 
 if ($submitpractice) {
+    require_post();
     require_sesskey();
-    practice_manager::finish_session($session, $usage);
+    practice_manager::finish_session($session, $usage, $_POST);
     redirect(new moodle_url('/local/wronganswer/practice.php', ['sessionid' => $sessionid]));
 }
 
@@ -142,6 +143,7 @@ if ($session->status === 'inprogress') {
         'class' => 'local-wronganswer-form',
     ]);
     echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
+    echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'submitpractice', 'value' => '1']);
     echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'slots', 'value' => implode(',', $slots)]);
 
     foreach ($slots as $index => $slot) {
@@ -150,8 +152,6 @@ if ($session->status === 'inprogress') {
 
     echo html_writer::div(html_writer::tag('button', get_string('submitpractice', 'local_wronganswer'), [
         'type' => 'submit',
-        'name' => 'submitpractice',
-        'value' => '1',
         'class' => 'btn btn-primary',
     ]), 'local-wronganswer-submit mt-4');
     echo html_writer::end_tag('form');

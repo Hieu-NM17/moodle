@@ -1,7 +1,7 @@
 <?php
 $string['pluginname'] = 'Luyện tập câu hỏi sai';
 $string['retakewrong'] = 'Làm lại câu hỏi sai';
-$string['practicehint'] = 'Bạn có thể luyện lại các câu trả lời sai, đúng một phần hoặc chưa trả lời trong lần làm bài này.';
+$string['practicehint'] = 'Bạn có thể luyện lại các câu hỏi tự động chấm có kết quả sai, đúng một phần hoặc chưa trả lời trong lần làm bài này.';
 $string['practicepagetitle'] = 'Làm lại câu hỏi sai';
 $string['practicebasedon'] = 'Câu hỏi luyện tập được lấy từ lần làm bài Quiz thứ {$a}.';
 $string['practiceinstructions'] = 'Hãy trả lời các câu hỏi bên dưới, sau đó nộp lượt luyện tập để xem kết quả.';
@@ -13,8 +13,9 @@ $string['retryremaining'] = 'Làm lại những câu vẫn còn sai';
 $string['allcorrect'] = 'Tốt lắm! Bạn đã trả lời đúng tất cả câu hỏi trong lượt luyện tập này.';
 $string['invalidpracticeurl'] = 'Đường dẫn đến lượt luyện tập không hợp lệ.';
 $string['invalidpracticeusage'] = 'Dữ liệu luyện tập không thuộc bài Quiz này.';
+$string['invalidpracticeform'] = 'Biểu mẫu luyện tập không đầy đủ hoặc đã cũ. Hãy tải lại trang và nộp câu trả lời một lần nữa.';
 $string['invalidoriginalattempt'] = 'Tính năng này chỉ dùng cho lần làm Quiz đã nộp của chính bạn, không áp dụng cho bản xem trước.';
-$string['nowrongquestions'] = 'Không còn câu hỏi sai nào cần luyện tập.';
+$string['nowrongquestions'] = 'Không còn câu hỏi tự động chấm nào có kết quả sai cần luyện tập.';
 $string['emptypracticesession'] = 'Lượt luyện tập này không có câu hỏi.';
 $string['sessionalreadyfinished'] = 'Lượt luyện tập này đã được nộp.';
 $string['reviewnotallowed'] = 'Thiết lập Quiz không cho phép xem nội dung bài làm và tính đúng/sai của lần làm bài này, vì vậy không thể luyện lại câu hỏi sai.';

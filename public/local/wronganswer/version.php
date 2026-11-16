@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - http://moodle.org/.
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -9,7 +9,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_wronganswer';
-$plugin->version = 2026111601;
+$plugin->version = 2026111602;
 $plugin->requires = 2026100500.08;
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '1.0.1';
+$plugin->release = '1.0.2';
