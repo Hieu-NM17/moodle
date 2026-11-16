@@ -47,11 +47,6 @@ $context = context_module::instance($cm->id);
 
 require_login($course, false, $cm);
 
-$reviewoptions = quiz_get_review_options($quiz, $attempt, $context);
-if (empty($reviewoptions->attempt) || empty($reviewoptions->correctness)) {
-    throw new moodle_exception('reviewnotallowed', 'local_wronganswer');
-}
-
 $PAGE->set_url(new moodle_url('/local/wronganswer/practice.php', $sessionid ?
         ['sessionid' => $sessionid] : ['attemptid' => $attemptid]));
 $PAGE->set_context($context);
@@ -61,6 +56,22 @@ $PAGE->add_body_class('local-wronganswer-page');
 $PAGE->set_title(get_string('practicepagetitle', 'local_wronganswer'));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->requires->css(new moodle_url('/local/wronganswer/styles.css'));
+
+// Apply the same review permission and access checks as Moodle's own Quiz review page.
+$attemptobj = quiz_create_attempt_handling_errors($attemptid, (int)$cm->id);
+$attemptobj->check_review_capability();
+$accessmanager = $attemptobj->get_access_manager(time());
+$accessmanager->setup_attempt_page($PAGE);
+
+$reviewoptions = quiz_get_review_options($quiz, $attempt, $context);
+if (empty($reviewoptions->attempt) || empty($reviewoptions->correctness)) {
+    throw new moodle_exception('reviewnotallowed', 'local_wronganswer');
+}
+
+if ($session && ((int)$session->cmid !== (int)$cm->id ||
+        (int)$session->quizattemptid !== (int)$attempt->id)) {
+    throw new moodle_exception('invalidpracticeusage', 'local_wronganswer');
+}
 
 if (!$session) {
     $sourceusageid = (int)$attempt->uniqueid;
@@ -124,6 +135,7 @@ if ($session->status === 'inprogress') {
 
     echo html_writer::tag('p', get_string('practiceinstructions', 'local_wronganswer'));
     echo html_writer::start_tag('form', [
+        'id' => 'responseform',
         'method' => 'post',
         'enctype' => 'multipart/form-data',
         'action' => (new moodle_url('/local/wronganswer/practice.php', ['sessionid' => $sessionid]))->out(false),

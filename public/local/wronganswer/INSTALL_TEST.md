@@ -2,54 +2,53 @@
 
 ## 1. Sao lưu và tạo nhánh làm tính năng
 
-Trong bản clone dự án:
-
 ```bash
 git status
-git switch -c feat/wrong-answer-practice
+git switch -c fix/wrong-answer-practice
 ```
 
 Đảm bảo working tree sạch trước khi chép plugin.
 
-## 2. Chép plugin vào đúng thư mục
+## 2. Chép plugin
 
-Repository `Hieu-NM17/moodle` hiện tổ chức Moodle code dưới `public/`, vì vậy copy thư mục plugin vào:
+Repository `Hieu-NM17/moodle` tổ chức Moodle code trong `public/`. Chép toàn bộ thư mục `local_wronganswer` từ gói này vào:
 
 ```text
 public/local/wronganswer/
 ```
 
-Sau khi chép, cần có `public/local/wronganswer/version.php` và `public/local/wronganswer/db/install.xml`.
-
 ## 3. Cài plugin và tạo bảng
 
-Chạy từ thư mục gốc repository, trong môi trường PHP có thể đọc `public/config.php` và kết nối tới đúng database:
+Chạy từ thư mục gốc repository, trong môi trường PHP truy cập được `public/config.php` và database:
 
 ```bash
 php public/admin/cli/upgrade.php --non-interactive
 php public/admin/cli/purge_caches.php
 ```
 
-Nếu Moodle đang chạy trong Docker, chạy hai lệnh này bên trong container PHP/Web của Moodle (tên service phụ thuộc file compose của dự án).
+Nếu dùng Docker, chạy trong container PHP/Web phù hợp với compose project. Hoặc mở Moodle bằng admin, vào **Site administration → Notifications** để nâng cấp, sau đó vào **Site administration → Development → Purge caches**.
 
-Hoặc mở Moodle bằng tài khoản admin và vào **Site administration → Notifications**, sau đó purge caches.
+Plugin tạo bảng `local_wronganswer_sess`; không sửa `config.php`, không chỉnh Composer và không cần build JavaScript.
 
-Plugin tạo bảng `local_wronganswer_sess`. Không cần sửa `config.php`, không cần chỉnh Composer và không cần chạy build JavaScript.
+## 4. Cấu hình Quiz — bước quan trọng
 
-## 4. Cấu hình Quiz
+Trong Quiz cần kiểm thử, vào **Review options** và bật đồng thời:
 
-Trong Quiz cần test, bật **Review options → Whether correct** tại thời điểm review mong muốn. Khuyến nghị bật tại **After the quiz is closed** để không lộ kết quả khi quiz còn mở.
+- **The attempt**
+- **Whether correct**
+
+Bật cả hai ở cùng khoảng thời gian, ví dụ **After the quiz is closed**. Bật riêng `Whether correct` là chưa đủ vì plugin chủ động yêu cầu người học được phép review nội dung attempt.
 
 ## 5. Kiểm tra luồng người học
 
-Tạo một Quiz gồm 3–5 câu tự động chấm. Làm thử một bài có:
+Tạo Quiz gồm 3–5 câu tự động chấm. Làm thử một bài có:
 
 - một câu trả lời đúng;
 - một câu trả lời sai;
 - một câu bỏ trống;
-- có thể thêm một câu tự luận để xác nhận câu chưa chấm không bị hiểu là sai.
+- có thể thêm câu tự luận chưa chấm để xác nhận câu chưa chấm không bị xem là sai.
 
-Submit Quiz và mở review. Nút luyện tập chỉ xuất hiện khi có câu sai/bỏ trống và review options cho phép xem đúng/sai. Mở lượt luyện tập, trả lời, submit và xem kết quả. Nếu còn sai, bấm nút luyện tiếp.
+Submit Quiz và mở review. Nút luyện tập xuất hiện nếu có câu sai/bỏ trống và hai review options cho phép. Mở lượt luyện tập, trả lời, submit và xem kết quả. Nếu còn sai, bấm nút luyện tiếp.
 
 ## 6. Xác nhận không tác động Quiz gốc
 
@@ -57,20 +56,20 @@ Sau khi luyện tập, quay lại review của Quiz và kiểm tra:
 
 - attempt number chính thức không tăng;
 - điểm trong Quiz/gradebook không thay đổi;
-- câu trả lời trong attempt gốc vẫn giữ nguyên;
-- nếu câu hỏi có ảnh/tệp đính kèm, các file vẫn hiển thị trong màn hình luyện tập;
+- câu trả lời trong attempt gốc giữ nguyên;
+- ảnh/tệp đính kèm của câu hỏi hiển thị trong màn hình luyện tập;
 - plugin chỉ thêm session trong `local_wronganswer_sess` và Question Usage thuộc `local_wronganswer`.
 
 ## 7. Kiểm tra quyền truy cập
 
-- Tắt **Whether correct** trong review options: nút không hiển thị và URL `/local/wronganswer/practice.php?attemptid=...` không cho truy cập.
+- Tắt `The attempt` hoặc `Whether correct`: nút không hiển thị và URL `/local/wronganswer/practice.php?attemptid=...` bị từ chối.
 - Đăng nhập bằng tài khoản khác và thử mở `sessionid` của người học trước: phải bị từ chối.
-- Làm một bài không có câu sai: nút không hiển thị.
+- Làm bài không có câu sai: nút không hiển thị.
 
-## 8. Gỡ plugin khi cần
+## 8. Gỡ plugin
 
-Từ **Site administration → Plugins → Plugins overview**, gỡ `Wrong-answer practice`. Moodle sẽ xóa bảng plugin trong quá trình uninstall. Việc xóa plugin không yêu cầu khôi phục bất kỳ file core nào.
+Vào **Site administration → Plugins → Plugins overview**, gỡ `Wrong-answer practice`. Moodle sẽ xóa bảng plugin và Question Usage thuộc component `local_wronganswer`.
 
-## 9. Giới hạn kiểm thử của gói này
+## 9. Trạng thái kiểm thử
 
-Gói được kiểm tra cú pháp PHP và cấu trúc XML tĩnh. Nó chưa được cài vào một Moodle runtime có database và quiz thật trong phiên làm việc này; do đó cần thực hiện các bước kiểm thử tích hợp ở trên trước khi merge.
+Đã rà soát các API được gọi trong mã plugin, sửa lời gọi `question_usage_by_activity::check_file_access()` và chạy kiểm tra cú pháp PHP/XML tĩnh. Chưa thể xác nhận end-to-end nếu chưa cài plugin vào Moodle runtime với database và Quiz thật.

@@ -65,7 +65,7 @@ class hook_callbacks {
         $context = \context_module::instance($cmid);
         $reviewoptions = quiz_get_review_options($quiz, $attempt, $context);
 
-        // Never expose correctness information when the quiz review settings hide it.
+        // Respect both the attempt visibility and correctness review settings.
         if (empty($reviewoptions->attempt) || empty($reviewoptions->correctness)) {
             return;
         }

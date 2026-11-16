@@ -11,9 +11,6 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Serve files embedded in a question rendered within a local_wronganswer practice session.
  *
- * Moodle dispatches question files to the callback named after the Question Usage component.
- * This mirrors the access checks used by mod_quiz, but validates the local practice session.
- *
  * @param stdClass $course Course record.
  * @param context $context Context where the question file is stored.
  * @param string $component File component, normally question or a question type component.
@@ -70,8 +67,24 @@ function local_wronganswer_question_pluginfile($course, $context, $component,
         send_file_not_found();
     }
 
-    $isreviewing = ($session->status === 'finished');
-    if (!$usage->check_file_access($slot, $isreviewing, $context->id,
+    $slot = (int)$slot;
+    if (!in_array($slot, $usage->get_slots())) {
+        send_file_not_found();
+    }
+
+    // question_usage_by_activity::check_file_access() expects display options,
+    // unlike mod_quiz\quiz_attempt::check_file_access(), which has a different signature.
+    if ($session->status === 'finished') {
+        $displayoptions = clone $reviewoptions;
+    } else {
+        $displayoptions = new question_display_options();
+        $displayoptions->readonly = false;
+        $displayoptions->hide_all_feedback();
+        $displayoptions->marks = question_display_options::HIDDEN;
+        $displayoptions->flags = question_display_options::HIDDEN;
+    }
+
+    if (!$usage->check_file_access($slot, $displayoptions,
             $component, $filearea, $args, $forcedownload)) {
         send_file_not_found();
     }

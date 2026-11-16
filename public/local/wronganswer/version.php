@@ -9,7 +9,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_wronganswer';
-$plugin->version = 2026111600;
+$plugin->version = 2026111601;
 $plugin->requires = 2026100500.08;
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '1.0.0';
+$plugin->release = '1.0.1';
