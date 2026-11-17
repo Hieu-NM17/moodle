@@ -58,11 +58,50 @@ class hook_callbacks {
                 return;
             }
 
-            $hook->add_html(self::render_card($hook->renderer, $attemptobj, $isreview));
+            $html = self::render_card($hook->renderer, $attemptobj, $isreview);
+            if ($html !== '') {
+                $hook->add_html($html);
+                $PAGE->requires->js_amd_inline(self::get_placement_js($isreview));
+            }
         } catch (\Throwable $e) {
             // Never break a quiz page because of this optional feature.
             debugging('local_quizretry: ' . $e->getMessage(), DEBUG_DEVELOPER);
         }
+    }
+
+    /**
+     * Small script that moves the card to its place in the quiz page.
+     *
+     * The quiz pages have no output hook at those spots, so the card is rendered after the main region
+     * and moved with JavaScript. Review page: just above the "Finish review" buttons (.submitbtns).
+     * View page: right below the list of previous attempts. If the anchor is missing the card stays
+     * where it was rendered.
+     *
+     * @param bool $isreview true on the review page.
+     * @return string JavaScript code.
+     */
+    protected static function get_placement_js(bool $isreview): string {
+        $mode = $isreview ? 'review' : 'view';
+        return "(function() {
+            var place = function() {
+                var card = document.querySelector('[data-region=\"local-quizretry-card\"]');
+                if (!card) { return; }
+                if ('$mode' === 'review') {
+                    var btns = document.querySelectorAll('#region-main .submitbtns');
+                    var anchor = btns.length ? btns[btns.length - 1] : null;
+                    if (anchor && anchor.parentNode) { anchor.parentNode.insertBefore(card, anchor); }
+                } else {
+                    var list = document.querySelector('#region-main ul.list-unstyled.row.row-cols-1.row-cols-md-2') ||
+                        document.querySelector('#region-main table.quizattemptsummary');
+                    if (list && list.parentNode) { list.parentNode.insertBefore(card, list.nextSibling); }
+                }
+            };
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', place);
+            } else {
+                place();
+            }
+        })();";
     }
 
     /**
