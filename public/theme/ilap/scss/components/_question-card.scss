@@ -1,0 +1,29 @@
+body#page-mod-quiz-attempt {
+    .que {
+        .info {
+            background-color: #f1eec0;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+
+        .content {
+            background-color: #E6F2F5;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            min-width: 0;
+        }
+
+        .qtext {
+            color: #1E293B;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+        }
+
+        .formulation {
+            margin-bottom: 0;
+        }
+    }
+}

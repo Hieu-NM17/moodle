@@ -1,0 +1,23 @@
+#page-mod-quiz-attempt {
+    .que {
+        a.btn.btn-link[role="button"] {
+            color: #000000;
+            background-color: #f1f0a8;
+            font-size: 0.875rem;
+            text-decoration: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 2.5px;
+            transition: color 0.2s ease, background-color 0.2s ease;
+
+            &:hover {
+                color: #2563eb;
+                background-color: #eff6ff;
+            }
+
+            &:focus-visible {
+                outline: 2px solid #2563eb;
+                outline-offset: 2px;
+            }
+        }
+    }
+}
