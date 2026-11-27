@@ -1,0 +1,149 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_studytimer/floating_popup
+
+    Floating Pomodoro popup, Quiz Pacing extension, and break-time lock overlay.
+}}
+<div id="local-studytimer-root"
+     class="local-studytimer-root"
+     data-userid="{{userid}}"
+     data-str-start="{{str.start}}"
+     data-str-pause="{{str.pause}}"
+     data-str-resume="{{str.resume}}"
+     data-str-ready="{{str.statusready}}"
+     data-str-studying="{{str.statusstudying}}"
+     data-str-paused="{{str.statuspaused}}"
+     data-str-break="{{str.statusbreak}}"
+     data-str-cycleprefix="{{str.cycleprefix}}"
+     data-str-questionlabel="{{str.questionlabel}}">
+
+    <div id="local-studytimer-popup"
+         class="local-studytimer-popup d-none"
+         role="dialog"
+         aria-label="{{str.title}}">
+
+        <div id="local-studytimer-pacing-toast" class="local-studytimer-pacing-toast d-none" role="status" aria-live="polite">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            <span>{{str.pacingovertime}}</span>
+        </div>
+
+        <div id="local-studytimer-drag-handle" class="local-studytimer-header">
+            <div class="local-studytimer-title-wrap">
+                <i class="fa fa-clock-o fa-regular fa-clock" aria-hidden="true"></i>
+                <span class="local-studytimer-title">{{str.title}}</span>
+                <span id="local-studytimer-cycle-badge" class="local-studytimer-cycle-badge">{{str.cycleprefix}} #1</span>
+                <span id="local-studytimer-status-pill" class="local-studytimer-status-pill">{{str.statusready}}</span>
+            </div>
+            <button type="button"
+                    id="local-studytimer-collapse-btn"
+                    class="local-studytimer-icon-btn"
+                    title="{{str.close}}"
+                    aria-label="{{str.close}}">
+                <i class="fa fa-minus" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <div class="local-studytimer-body">
+            <div class="local-studytimer-presets" role="group" aria-label="Timer presets">
+                <button type="button" class="local-studytimer-preset-btn active" data-preset="25-5" data-study="25" data-break="5">{{str.preset25}}</button>
+                <button type="button" class="local-studytimer-preset-btn" data-preset="50-10" data-study="50" data-break="10">{{str.preset50}}</button>
+                <button type="button" class="local-studytimer-preset-btn" data-preset="custom">{{str.presetcustom}}</button>
+            </div>
+
+            <div id="local-studytimer-custom-inputs" class="local-studytimer-custom-inputs d-none">
+                <label class="local-studytimer-input-group">
+                    <span>{{str.studyminutes}}</span>
+                    <input type="number" id="local-studytimer-study-input" min="1" max="180" value="25">
+                </label>
+                <label class="local-studytimer-input-group">
+                    <span>{{str.breakminutes}}</span>
+                    <input type="number" id="local-studytimer-break-input" min="1" max="60" value="5">
+                </label>
+            </div>
+
+            <div class="local-studytimer-clock-wrap">
+                <div id="local-studytimer-display" class="local-studytimer-display">25:00</div>
+            </div>
+
+            <div id="local-studytimer-transition-box" class="local-studytimer-transition-box d-none">
+                <div class="local-studytimer-transition-msg">{{str.sessiondone}}</div>
+                <div class="local-studytimer-transition-actions">
+                    <button type="button" id="local-studytimer-take-break-btn" class="btn btn-primary btn-sm">{{str.takebreak}}</button>
+                    <button type="button" id="local-studytimer-continue-btn" class="btn btn-outline-secondary btn-sm">{{str.continuestudy}}</button>
+                </div>
+            </div>
+
+            <div id="local-studytimer-controls" class="local-studytimer-controls">
+                <button type="button" id="local-studytimer-primary-btn" class="btn btn-primary btn-sm flex-grow-1">{{str.start}}</button>
+                <button type="button" id="local-studytimer-reset-btn" class="btn btn-outline-secondary btn-sm">{{str.reset}}</button>
+            </div>
+
+            <label class="local-studytimer-autoloop-row">
+                <input type="checkbox" id="local-studytimer-autoloop-toggle" checked>
+                <span>{{str.autoloop}}</span>
+            </label>
+        </div>
+
+        {{#isquizattempt}}
+        <div id="local-studytimer-pacing-section" class="local-studytimer-pacing-section">
+            <div class="local-studytimer-pacing-header">
+                <div class="local-studytimer-pacing-title">
+                    <i class="fa fa-tachometer fa-gauge-high" aria-hidden="true"></i>
+                    <span>{{str.quizpacingtitle}}</span>
+                </div>
+                <label class="local-studytimer-switch" title="{{str.quizpacingenable}}">
+                    <input type="checkbox" id="local-studytimer-pacing-toggle" checked>
+                    <span class="local-studytimer-switch-slider"></span>
+                </label>
+            </div>
+
+            <div id="local-studytimer-pacing-content" class="local-studytimer-pacing-content">
+                <div class="local-studytimer-pacing-row">
+                    <div class="local-studytimer-pacing-qwrap">
+                        <span id="local-studytimer-pacing-qnum" class="local-studytimer-pacing-qnum">{{str.questionlabel}} 1</span>
+                        <span id="local-studytimer-pacing-display" class="local-studytimer-pacing-display">00:00</span>
+                    </div>
+                    <label class="local-studytimer-pacing-target">
+                        <span>{{str.secondsperquestion}}</span>
+                        <input type="number" id="local-studytimer-pacing-seconds" min="10" max="600" step="5" value="60">
+                    </label>
+                </div>
+            </div>
+        </div>
+        {{/isquizattempt}}
+
+        <div id="local-studytimer-resize-handle"
+             class="local-studytimer-resize-handle"
+             title="{{str.resize}}"
+             aria-label="{{str.resize}}"></div>
+    </div>
+
+    <div id="local-studytimer-break-overlay" class="local-studytimer-break-overlay d-none" role="alertdialog" aria-modal="true" aria-labelledby="local-studytimer-break-title">
+        <div class="local-studytimer-break-card">
+            <div class="local-studytimer-break-icon">
+                <i class="fa fa-coffee" aria-hidden="true"></i>
+            </div>
+            <h2 id="local-studytimer-break-title" class="local-studytimer-break-title">{{str.breaklocktitle}}</h2>
+            <p class="local-studytimer-break-desc">{{str.breaklockdesc}}</p>
+            <div id="local-studytimer-break-display" class="local-studytimer-break-display">05:00</div>
+            <button type="button" id="local-studytimer-end-break-btn" class="local-studytimer-end-break-btn">
+                {{str.endbreakearly}}
+            </button>
+        </div>
+    </div>
+</div>

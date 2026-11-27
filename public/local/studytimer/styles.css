@@ -1,0 +1,497 @@
+/* Navbar toggle button */
+.local-studytimer-nav-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+}
+
+.local-studytimer-nav-btn:hover,
+.local-studytimer-nav-btn:focus {
+    text-decoration: none;
+}
+
+.local-studytimer-nav-badge {
+    margin-left: 0.3rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    padding: 0.1rem 0.35rem;
+    border-radius: 999px;
+    background-color: #0f6cbf;
+    color: #fff;
+    line-height: 1.2;
+}
+
+/* Floating draggable & resizable popup */
+.local-studytimer-popup {
+    position: fixed;
+    top: 76px;
+    right: 24px;
+    width: 330px;
+    min-width: 290px;
+    max-width: 460px;
+    background: #ffffff;
+    border: 1px solid #d5dbe3;
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.16);
+    z-index: 1055;
+    font-family: inherit;
+    color: #1e293b;
+    user-select: none;
+    overflow: visible;
+}
+
+/* Speech-bubble warning toast above the popup */
+.local-studytimer-pacing-toast {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: calc(100% + 24px);
+    background: #dc2626;
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.45rem 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(220, 38, 38, 0.35);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    z-index: 1060;
+    pointer-events: none;
+    animation: local-studytimer-pop-in 0.2s ease-out;
+}
+
+.local-studytimer-pacing-toast::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #dc2626 transparent transparent transparent;
+}
+
+@keyframes local-studytimer-pop-in {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 6px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.local-studytimer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.85rem;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    border-radius: 12px 12px 0 0;
+    cursor: grab;
+}
+
+.local-studytimer-header:active {
+    cursor: grabbing;
+}
+
+.local-studytimer-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+.local-studytimer-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.local-studytimer-cycle-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.08rem 0.4rem;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    white-space: nowrap;
+}
+
+.local-studytimer-status-pill {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    background: #e2e8f0;
+    color: #475569;
+    white-space: nowrap;
+}
+
+.local-studytimer-status-pill.is-studying {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.local-studytimer-status-pill.is-paused {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.local-studytimer-status-pill.is-break {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.local-studytimer-icon-btn {
+    background: transparent;
+    border: 0;
+    color: #64748b;
+    padding: 0.2rem 0.35rem;
+    border-radius: 6px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.local-studytimer-icon-btn:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.local-studytimer-body {
+    padding: 0.85rem;
+}
+
+.local-studytimer-presets {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+    margin-bottom: 0.65rem;
+}
+
+.local-studytimer-preset-btn {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    border-radius: 6px;
+    padding: 0.32rem 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.local-studytimer-preset-btn:hover {
+    background: #f1f5f9;
+}
+
+.local-studytimer-preset-btn.active {
+    background: #0f6cbf;
+    border-color: #0f6cbf;
+    color: #ffffff;
+}
+
+.local-studytimer-custom-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+}
+
+.local-studytimer-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin: 0;
+    font-size: 0.75rem;
+    color: #475569;
+}
+
+.local-studytimer-input-group input {
+    width: 100%;
+    padding: 0.28rem 0.4rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.local-studytimer-clock-wrap {
+    text-align: center;
+    padding: 0.45rem 0 0.75rem;
+}
+
+.local-studytimer-display {
+    font-size: 2.55rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.03em;
+    color: #0f172a;
+    line-height: 1.1;
+}
+
+.local-studytimer-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.local-studytimer-autoloop-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0.6rem 0 0;
+    font-size: 0.76rem;
+    color: #475569;
+    cursor: pointer;
+}
+
+.local-studytimer-autoloop-row input {
+    margin: 0;
+    cursor: pointer;
+}
+
+.local-studytimer-transition-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 0.65rem;
+    margin-bottom: 0.6rem;
+    text-align: center;
+}
+
+.local-studytimer-transition-msg {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+}
+
+.local-studytimer-transition-actions {
+    display: flex;
+    gap: 0.45rem;
+    justify-content: center;
+}
+
+/* Feature 2: Quiz Pacing extension */
+.local-studytimer-pacing-section {
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+    padding: 0.7rem 0.85rem 0.85rem;
+    border-radius: 0 0 12px 12px;
+}
+
+.local-studytimer-pacing-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.45rem;
+}
+
+.local-studytimer-pacing-title {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.local-studytimer-switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 18px;
+    margin: 0;
+}
+
+.local-studytimer-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.local-studytimer-switch-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #cbd5e1;
+    border-radius: 999px;
+    transition: 0.2s;
+}
+
+.local-studytimer-switch-slider::before {
+    content: "";
+    position: absolute;
+    height: 14px;
+    width: 14px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transition: 0.2s;
+}
+
+.local-studytimer-switch input:checked + .local-studytimer-switch-slider {
+    background-color: #0f6cbf;
+}
+
+.local-studytimer-switch input:checked + .local-studytimer-switch-slider::before {
+    transform: translateX(16px);
+}
+
+.local-studytimer-pacing-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+}
+
+.local-studytimer-pacing-qwrap {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+}
+
+.local-studytimer-pacing-qnum {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.local-studytimer-pacing-display {
+    font-size: 1.4rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: #0f172a;
+    line-height: 1.1;
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.local-studytimer-pacing-display.is-warning {
+    color: #b45309;
+    background-color: #fef3c7;
+}
+
+.local-studytimer-pacing-display.is-danger {
+    color: #dc2626;
+    background-color: #fee2e2;
+}
+
+.local-studytimer-pacing-target {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+    margin: 0;
+    font-size: 0.7rem;
+    color: #64748b;
+}
+
+.local-studytimer-pacing-target input {
+    width: 68px;
+    padding: 0.18rem 0.3rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    text-align: center;
+    background: #ffffff;
+}
+
+/* Bottom-right resize grip */
+.local-studytimer-resize-handle {
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+    width: 14px;
+    height: 14px;
+    cursor: ew-resize;
+    opacity: 0.55;
+    background: linear-gradient(135deg, transparent 50%, #94a3b8 50%, #94a3b8 62%, transparent 62%, transparent 76%, #94a3b8 76%, #94a3b8 88%, transparent 88%);
+    border-bottom-right-radius: 10px;
+}
+
+.local-studytimer-resize-handle:hover {
+    opacity: 1;
+}
+
+/* Fullscreen break lock overlay */
+.local-studytimer-break-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(6px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.local-studytimer-break-card {
+    max-width: 420px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 2rem 1.75rem;
+    text-align: center;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+    color: #0f172a;
+}
+
+.local-studytimer-break-icon {
+    font-size: 2.25rem;
+    color: #16a34a;
+    margin-bottom: 0.75rem;
+}
+
+.local-studytimer-break-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+
+.local-studytimer-break-desc {
+    font-size: 0.9rem;
+    color: #475569;
+    margin-bottom: 1.25rem;
+}
+
+.local-studytimer-break-display {
+    font-size: 3.25rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #15803d;
+    margin-bottom: 1.5rem;
+    line-height: 1;
+}
+
+.local-studytimer-end-break-btn {
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    color: #64748b;
+    font-size: 0.78rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.local-studytimer-end-break-btn:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #94a3b8;
+}
